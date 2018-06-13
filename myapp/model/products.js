@@ -81,10 +81,9 @@ var remove = function( where, callBack ) {
 
 
 // Dokumentum sum
-var getCount = function( where, callBack ) {
-
+var getCount = function( where, callBack) {
   Product.count( where, function( err, resp ) {
-    callBack( resp );
+    callBack(resp);
   } );
 };
 

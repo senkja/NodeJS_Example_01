@@ -76,13 +76,20 @@ var update = function( where, data, callBack ) {
 
 // Új dokumentmum létrehozása.
 var insert = function( data, callBack ) {
-
-  var user = new User( data );
+  var user = new User(data );
+  user.password = '';
+  user.meta = {};
+  user.meta.role = data['meta.role'];
+  user.meta.lastLogin = data['meta.lastLogin'];
+  //
+  console.log('user:' + user);
+  
   user.save(function (err) {
     if (err) {
         callBack( {"error": err} );
     } else {
-      callBack( data );      
+      callBack( new User(
+      ) );      
     }
   });
 
@@ -105,8 +112,22 @@ var remove = function( where, callBack ) {
 // Dokumentum sum
 var getCount = function( where, callBack ) {
   User.count( where, function( err, resp ) {
-    callBack( resp );
+    callBack(resp);
   } );
+};
+
+var getNew = function( callBack ) {
+    callBack( new User ({
+      name: "",
+      email: "",
+      gender: "male",
+      address: "",
+      password: "",
+      meta: {
+        role: 2,
+        lastLogin: "never"
+      }
+    }));
 };
 
 
@@ -117,7 +138,8 @@ module.exports = {
   "insert": insert,
   "remove": remove,
   "count": getCount,
-  "template": userTemplate
+  "template": userTemplate,
+  "getNew": getNew
 };
 
 

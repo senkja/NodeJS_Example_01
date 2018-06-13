@@ -8,6 +8,7 @@ block content
           .row
             .col-lg-12
               h1.page-header=title
+                a.btn.btn-primary.pull-right(href='/users/new') New User
           .row
             .col-xs-12
               table.table.table-striped
@@ -18,6 +19,7 @@ block content
                     th Gender
                     th Address
                     th Last Login
+                    th is Admin?
                     th Actions
                 tbody
                   each row in users
@@ -26,9 +28,9 @@ block content
                       td=row.email
                       td=row.gender
                       td=row.address
-                      td=row.meta.lastLogin
+                      td=(row.meta ? row.meta.lastLogin : '')
+                      td=(row.meta ? (row.meta.role == 1 ? "yes" : "no") : '')
                       td
                         .btn-group
                           a.btn.btn-primary(href='/users/'+row._id) Show details
                           a.btn.btn-warning(href='/users/delete/'+row._id) Delete          
-                      
