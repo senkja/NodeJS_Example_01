@@ -121,18 +121,12 @@ router.get('/users/new', function(req, res, next) {
 
 router.post('/users/save-new', function(req, res, next) {
   var productsHandler = require( '../model/users' );
-  
-  console.log(req.body);
-  
   productsHandler.insert( req.body, function(data) {
         res.redirect('/users');        
     } );
 })
 
 router.post('/users/update/:id', function(req, res, next) {
-
-    console.log(req.body);
-
   var usersHandler = require( '../model/users' );
     usersHandler.update( {'_id': req.params.id}, req.body, function(data) {
         res.redirect('/users');             
