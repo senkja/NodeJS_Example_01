@@ -1,0 +1,41 @@
+extends layout
+
+block content
+  #wrapper
+      // Page Content
+      #page-wrapper
+        .container-fluid
+          .row
+            .col-lg-12
+              h1.page-header=title
+          .row
+            col-lg-3.col-md-6
+              .panel.panel-primary
+                .panel-heading
+                  .row
+                    .col-xs-3
+                      i.fa.fa-gift.fa-5x
+                    .col-xs-9.text-right
+                      .huge=products_sum.count 
+                      div Products
+                a(href="/products")
+                  .panel-footer
+                    span.pull-left View Details
+                    span.pull-right
+                      i.fa.fa-arrow-circle-right
+                    .clearfix
+            col-lg-3.col-md-6
+              .panel.panel-primary
+                .panel-heading
+                  .row
+                    .col-xs-3
+                      i.fa.fa-user.fa-5x
+                    .col-xs-9.text-right
+                      .huge=users_sum.count 
+                      div Users
+                a(href="/users")
+                  .panel-footer
+                    span.pull-left View Details
+                    span.pull-right
+                      i.fa.fa-arrow-circle-right
+                    .clearfix                    

@@ -1,0 +1,31 @@
+extends layout
+
+block content
+  #wrapper
+      // Page Content
+      #page-wrapper
+        .container-fluid
+          .row
+            .col-lg-12
+              h1.page-header=title
+          .row
+            .col-xs-6
+              .panel.panel-primary
+                .panel-heading Details
+                .panel-body
+                  .row
+                    .col-xs-12
+                      form.user-form(role='form' method='post' action='/users/update/'+data._id)
+                        each row in userFields
+                          .form-group
+                          label=row.label
+                          if row.sub !== 'role'
+                              input.form-control(name=(row.sub ? row.name+'.'+row.sub : row.name) value=(row.sub ? data[row.name][row.sub] : data[row.name]) readonly=(row.sub=='lastLogin' ? true : false))
+                          else    
+                            select.form-control(name=(row.sub ? row.name+'.'+row.sub : row.name))
+                              each row,index in ['admin','user']
+                                option(value=(index+1), selected=(data.meta.role==(index+1) ? true : false))=row
+                        .form-group
+                          button.btn.btn-success Update
+                      
+                

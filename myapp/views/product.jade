@@ -1,0 +1,39 @@
+extends layout
+
+block content
+  #wrapper
+      // Page Content
+      #page-wrapper
+        .container-fluid
+          .row
+            .col-lg-12
+              h1.page-header=data.name
+          .row
+            .col-lg-6
+              .panel.panel-primary
+                .panel-heading
+                  .row
+                    .col-xs-12
+                      h3 Details
+                .panel-body
+                  .row
+                    .col-xs-12
+                      form.product-form(role='form' method='post' action='/products/update/'+data._id)
+                        .form-group
+                          label(for='product-name') Name
+                          input.form-control(type='text' name='name' value=data.name id='product-name')
+                        .form-group
+                          label(for='product-manufacturer') Manufacturer
+                          input.form-control(type='text' name='manufacturer' value=data.manufacturer)
+                        .form-group
+                          label(for='product-price') Price
+                          input.form-control(type='text' name='price' value=data.price)
+                        .form-group
+                          label(for='product-instock') In Stock
+                          input.form-control(type='text' name='instock' value=data.instock)
+                        .form-group
+                          label(for='image') Image URL
+                          input.form-control(name='image' value=data.image)
+                          img.product-image(src=data.image)
+                        .form-group
+                          button.btn.btn-success Update

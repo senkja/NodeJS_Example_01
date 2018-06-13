@@ -1,0 +1,24 @@
+extends layout
+
+block content
+  #wrapper
+      // Page Content
+      #page-wrapper
+        .container-fluid
+          .row
+            .col-lg-12
+              h1.page-header=title
+          .row
+            .col-xs-6
+              .panel.panel-primary
+                .panel-heading New product
+                .panel-body
+                  form(role='form' method='post' action='/product/save-new')
+                    each row in formFields
+                      .form-group
+                        label=row.label
+                        input.form-control(name=row.name)
+                    .form-group
+                      button.btn.btn-success Save New
+                      
+                
