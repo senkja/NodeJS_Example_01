@@ -20,7 +20,7 @@ block content
                           .form-group
                           label=row.label
                           if row.sub !== 'role'
-                              input.form-control(name=(row.sub ? row.name+'.'+row.sub : row.name) value=(row.sub ? data[row.name][row.sub] : data[row.name]) readonly=(row.sub=='lastLogin' ? true : false))
+                              input.form-control(name=(row.sub ? row.name+'.'+row.sub : row.name) value=(row.sub ? data[row.name][row.sub] : data[row.name]) readonly=(row.sub=='lastLogin' ? true : false) type=(row.name == 'password' ? 'password' : 'text'))
                           else    
                             select.form-control(name=(row.sub ? row.name+'.'+row.sub : row.name))
                               each row,index in ['admin','user']

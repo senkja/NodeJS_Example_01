@@ -4,8 +4,11 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
 var routes = require('./routes/index');
+//session kezeles
+// elotte telepiteni kellett az express/session csomagot, mert ne mvolt benne az express-ben
+var session = require('express-session');
+
 
 var app = express();
 
@@ -20,6 +23,26 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+//session kezeles hozzadasa az expresshez
+// ha igy van, akkor addig el amig a bongeszo
+/*
+app.use(session({
+                  secret: 'jSoE76eArTTyX_0117-j2EtT',
+                }
+        ));
+
+*/
+// igy adhato meg hogy meddig eljen
+app.use(session({
+                  secret: 'jSoE76eArTTyX_0117-j2EtT',
+                  cookie: {
+                    expires: new Date(Date.now() + 60*60*1000*3)
+                  }
+                }
+        ));
+
+
 
 app.use('/', routes);
 

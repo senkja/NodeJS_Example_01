@@ -77,13 +77,10 @@ var update = function( where, data, callBack ) {
 // Új dokumentmum létrehozása.
 var insert = function( data, callBack ) {
   var user = new User(data );
-  user.password = '';
   user.meta = {};
   user.meta.role = data['meta.role'];
   user.meta.lastLogin = data['meta.lastLogin'];
   //
-  console.log('user:' + user);
-  
   user.save(function (err) {
     if (err) {
         callBack( {"error": err} );

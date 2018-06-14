@@ -6,7 +6,7 @@ nav.navbar.navbar-default.navbar-static-top(role='navigation', style='margin-bot
         span.icon-bar
         span.icon-bar
         span.icon-bar
-      a.navbar-brand(href='/') SB Admin v2.0
+      a.navbar-brand(href='/')=('SB Admin v2.0' + (loggedinUserName ? ' - '+loggedinUserName : ''))
     // /.navbar-header
     ul.nav.navbar-top-links.navbar-right
       li.dropdown
@@ -159,7 +159,7 @@ nav.navbar.navbar-default.navbar-static-top(role='navigation', style='margin-bot
               |  Settings
           li.divider
           li
-            a(href='login.html')
+            a(href='/logout')
               i.fa.fa-sign-out.fa-fw
               |  Logout
         // /.dropdown-user

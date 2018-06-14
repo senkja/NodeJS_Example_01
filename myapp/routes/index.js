@@ -1,9 +1,51 @@
 var express = require('express');
 var router = express.Router();
 
-var getCounter = function (resp) {
-  return resp;
-}
+//session kezeleshez
+var sessionHandler = require('../controllers/session');
+var loggedinUserName = '';
+
+// Session ellenőrzése.
+// lehetne csak router.get ill. router.post is, de igy mindent ellenoriz!
+router.get( "/*", function( req, res, next ) {
+    if ( req.url.indexOf( "/login" ) !==  -1 ) {
+      next();
+      return;
+    }
+    sessionHandler.getSession( req, function( err, session ) {
+        if ( err || session === null ) 
+          res.redirect( "/login" );
+        else {
+          loggedinUserName = session.userName;
+          next();
+        }
+    } );
+} );
+
+// Login oldal.
+router.get( "/login", function( req, res, next ) {
+      res.render('login', { title: 'Login' , loggedinUserName: loggedinUserName});
+});
+
+
+// Logout
+router.get( "/logout", function( req, res, next ) {
+    sessionHandler.logoutUser( req, function() {
+      res.render('login', { title: 'Login' , loggedinUserName: loggedinUserName});
+    });
+} );
+
+
+// Login ellenőrzése.
+router.post( "/login/start", function( req, res, next ) {
+    sessionHandler.loginUser( req, function( err, session ) {
+        if ( err ) 
+          res.redirect( "/login" );
+        else 
+          res.redirect( "/" );
+    })
+} );
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -15,7 +57,7 @@ router.get('/', function(req, res, next) {
       products_sum.count = resp;
       usersHandler.count({}, function(resp) {
         users_sum.count = resp;
-        res.render('index', { title: 'Dashboard', products_sum: products_sum, users_sum: users_sum  });
+        res.render('index', { title: 'Dashboard', products_sum: products_sum, users_sum: users_sum, loggedinUserName: loggedinUserName});
       });
     });
 });
@@ -24,13 +66,13 @@ router.get('/', function(req, res, next) {
 router.get('/products', function(req, res, next) {
     var productsHandler = require( '../model/products' );
     productsHandler.getAll({}, function(data) {
-      res.render('products', {title: 'Products', products: data})
+      res.render('products', {title: 'Products', products: data, loggedinUserName: loggedinUserName})
     });
 });
 
 
 router.get('/orders', function(req, res, next) {
-    res.render('orders', { title: 'Orders' });
+    res.render('orders', { title: 'Orders' , loggedinUserName: loggedinUserName});
 });
 
 
@@ -39,7 +81,7 @@ router.get('/users', function(req, res, next) {
     var usersHandler = require( '../model/users' );
     usersHandler.getAll({}, function(data) {
       if (!data) data = [];
-      res.render('users', {title: 'Users', users: data})
+      res.render('users', {title: 'Users', users: data, loggedinUserName: loggedinUserName})
     });
   
 });
@@ -58,6 +100,7 @@ var productFields = [
 var userFields = [
   {'label': 'Name', 'name': 'name'},
   {'label': 'E-mail', 'name': 'email'},
+  {'label': 'Password', 'name': 'password'},
   {'label': 'Gender', 'name': 'gender'},
   {'label': 'Address', 'name': 'address'},
   {'label': 'Role', 'name': 'meta', 'sub': 'role'},
@@ -70,7 +113,7 @@ var userFields = [
 * Products
 */
 router.get('/products/new', function(req, res, next) {
-  res.render('product_new', {title: 'New Product', formFields: productFields});
+  res.render('product_new', {title: 'New Product', formFields: productFields, loggedinUserName: loggedinUserName});
 });
 
 
@@ -103,7 +146,7 @@ router.get('/products/delete/:id', function(req, res) {
 router.get('/products/:id', function(req, res, next) {
     var productsHandler = require( '../model/products' );
     productsHandler.getOne( {'_id': req.params.id}, function(data) {
-        res.render('product', { data: data });       
+        res.render('product', { data: data , loggedinUserName: loggedinUserName});       
     } );
 });
 
@@ -114,7 +157,7 @@ router.get('/products/:id', function(req, res, next) {
 router.get('/users/new', function(req, res, next) {
   var usersHandler = require( '../model/users' );
   usersHandler.getNew(function (data) {
-        res.render('user', {title: 'New User', data: data, userFields: userFields, newUser: true});       
+        res.render('user', {title: 'New User', data: data, userFields: userFields, newUser: true, loggedinUserName: loggedinUserName});       
     } );
 });
 
@@ -154,7 +197,7 @@ router.get('/users/:id', function(req, res, next) {
   //
   
     usersHandler.getOne( {'_id': req.params.id}, function(data) {
-        res.render('user', {title: data.name, data: data, userFields: userFields, newUser: false});       
+        res.render('user', {title: data.name, data: data, userFields: userFields, newUser: false, loggedinUserName: loggedinUserName});       
     } );
 });
 
