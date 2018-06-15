@@ -1,0 +1,42 @@
+doctype html
+html
+  
+  include ./head.jade
+  
+  body
+    .clearfix(style="margin-top: 50px;")
+    .container-fluid
+      .row
+        .col-lg-6.col-lg-offset-3
+          .panel.panel-primary
+            .panel-heading
+              .row
+                .col-xs-12
+                  h3 Login
+            .panel-body
+              .row
+                .col-xs-6.col-xs-offset-3
+                  form.login-form(role='form' method='post' action='/login/start')
+                    .form-group
+                      label Email
+                      input.form-control(type='email' name='email')
+                    .form-group
+                      label Password
+                      input.form-control(type='password' name='password')
+                    .form-group
+                      button.btn.btn-success Login
+                          
+                          
+                          
+                          
+                          
+                          
+    
+    // jQuery
+    script(src='../bower_components/jquery/dist/jquery.min.js')
+    // Bootstrap Core JavaScript
+    script(src='../bower_components/bootstrap/dist/js/bootstrap.min.js')
+    // Metis Menu Plugin JavaScript
+    script(src='../bower_components/metisMenu/dist/metisMenu.min.js')
+    // Custom Theme JavaScript
+    script(src='../dist/js/sb-admin-2.js')
